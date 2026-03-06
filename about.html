@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — ConflictLens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #2a2a3a;
+    --accent: #c8a84b;
+    --text: #e8e8f0;
+    --text-muted: #6a6a7a;
+    --text-dim: #4a4a5a;
+    --side-a: #4b8bc8;
+    --side-b: #c84b4b;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --serif: 'Playfair Display', serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 2.5rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,15,0.95);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .logo span { color: var(--accent); }
+
+  nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  nav a {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--accent); }
+  nav a.active { color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
+
+  /* HERO */
+  .about-hero {
+    padding: 5rem 2.5rem 4rem;
+    max-width: 900px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .about-hero::after {
+    content: '"';
+    position: absolute;
+    top: 2rem;
+    right: 2.5rem;
+    font-family: var(--serif);
+    font-size: 20rem;
+    color: var(--surface2);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .page-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .page-label::before {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .about-title {
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .about-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .about-lead {
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: #b8b8c8;
+    max-width: 620px;
+    position: relative;
+    z-index: 1;
+    font-weight: 300;
+  }
+
+  /* CONTENT */
+  .content-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .content-nav {
+    padding: 3rem 1.5rem;
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: 70px;
+    height: fit-content;
+  }
+
+  .content-nav a {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+    border-left: 2px solid transparent;
+    padding-left: 0.8rem;
+    transition: all 0.2s;
+    margin-bottom: 0.2rem;
+  }
+
+  .content-nav a:hover {
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+
+  .content-body {
+    padding: 3rem 3rem 5rem;
+  }
+
+  /* SECTIONS */
+  .about-section {
+    margin-bottom: 4rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: sectionIn 0.5s ease forwards;
+  }
+
+  .about-section:last-child {
+    border-bottom: none;
+  }
+
+  .about-section:nth-child(1) { animation-delay: 0.1s; }
+  .about-section:nth-child(2) { animation-delay: 0.2s; }
+  .about-section:nth-child(3) { animation-delay: 0.3s; }
+  .about-section:nth-child(4) { animation-delay: 0.4s; }
+  .about-section:nth-child(5) { animation-delay: 0.5s; }
+
+  @keyframes sectionIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-number {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+
+  .section-title span {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .body-text {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #a8a8b8;
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+    max-width: 680px;
+  }
+
+  .body-text strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.5rem;
+    margin: 2rem 0;
+    background: var(--surface);
+  }
+
+  .pull-quote p {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .pull-quote cite {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+  }
+
+  /* PRINCIPLES GRID */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+
+  .principle-card {
+    background: var(--surface);
+    padding: 1.5rem;
+    transition: background 0.2s;
+  }
+
+  .principle-card:hover { background: var(--surface2); }
+
+  .principle-num {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+  }
+
+  .principle-title {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .principle-text {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* WHAT WE ARE NOT */
+  .not-list {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .not-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    color: #a8a8b8;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .not-icon {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: #c84b4b;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .yes-item .not-icon { color: #4bc87a; }
+
+  /* PRESS FREEDOM EXPLAINER */
+  .rsf-explainer {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .rsf-header {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .rsf-scale {
+    display: flex;
+    height: 8px;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+  }
+
+  .rsf-good { flex: 0 0 25%; background: #4bc87a; }
+  .rsf-satisfactory { flex: 0 0 20%; background: #8bc84b; }
+  .rsf-problematic { flex: 0 0 20%; background: #c8a84b; }
+  .rsf-difficult { flex: 0 0 20%; background: #c86b4b; }
+  .rsf-very-serious { flex: 0 0 15%; background: #c84b4b; }
+
+  .rsf-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    color: var(--text-muted);
+  }
+
+  /* OPEN SOURCE */
+  .code-block {
+    background: #0d0d14;
+    border: 1px solid var(--border);
+    padding: 1.2rem 1.5rem;
+    margin-top: 1.5rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: #4bc87a;
+    line-height: 1.8;
+  }
+
+  .code-comment { color: var(--text-dim); }
+  .code-key { color: var(--accent); }
+  .code-val { color: #4b8bc8; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-left {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .footer-motto {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--accent);
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    header { padding: 1rem; }
+    .about-hero { padding: 3rem 1rem 2rem; }
+    .about-hero::after { display: none; }
+    .content-grid { grid-template-columns: 1fr; }
+    .content-nav { display: none; }
+    .content-body { padding: 2rem 1rem 3rem; }
+    .principles-grid { grid-template-columns: 1fr; }
+    nav { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">Conflict<span>Lens</span></a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html" class="active">About</a>
+    <a href="index.html#conflict-russia-ukraine">Conflicts</a>
+  </nav>
+</header>
+
+<section class="about-hero">
+  <div class="page-label">About ConflictLens</div>
+  <h1 class="about-title">The war of<br><em>narratives.</em></h1>
+  <p class="about-lead">Every conflict has at least two stories. ConflictLens exists to show you both — not to tell you which one is true, but to give you the tools to decide for yourself.</p>
+</section>
+
+<div class="content-grid">
+
+  <nav class="content-nav">
+    <a href="#why">Why this exists</a>
+    <a href="#principles">Our principles</a>
+    <a href="#not">What we are not</a>
+    <a href="#press-freedom">Press freedom data</a>
+    <a href="#open">Open source</a>
+  </nav>
+
+  <div class="content-body">
+
+    <!-- WHY -->
+    <div class="about-section" id="why">
+      <div class="section-number">// 01</div>
+      <h2 class="section-title">Why <span>this exists</span></h2>
+      <p class="body-text">When a conflict breaks out, the information you receive depends almost entirely on where you live and what language you speak. A citizen in Moscow and a citizen in Kyiv are consuming almost entirely different realities — not because one is lying and the other is telling the truth, but because <strong>all media carries perspective</strong>, and most people only ever see one.</p>
+      <p class="body-text">ConflictLens was built on a simple premise: if you can see both narratives side by side, you become a better-informed reader. You start to notice the silences — what each side chooses not to say. You notice the framing — which deaths are mourned, which are justified. You notice the language — one side's "terrorist" is another side's "resistance fighter."</p>
+
+      <div class="pull-quote">
+        <p>"The first casualty of war is not truth — it's the acknowledgment that truth has multiple faces."</p>
+        <cite>— ConflictLens editorial principle</cite>
+      </div>
+
+      <p class="body-text">This is not a project of false equivalence. We are not saying that all media is equally credible, or that all sides in a conflict have equal moral standing. We show press freedom scores, funding sources, and editorial affiliations precisely because <strong>context matters</strong>. We trust you to weigh that context.</p>
+    </div>
+
+    <!-- PRINCIPLES -->
+    <div class="about-section" id="principles">
+      <div class="section-number">// 02</div>
+      <h2 class="section-title">Our <span>principles</span></h2>
+      <p class="body-text">ConflictLens operates by a set of editorial principles that guide every decision — which conflicts to cover, which sources to include, and how to present them.</p>
+
+      <div class="principles-grid">
+        <div class="principle-card">
+          <div class="principle-num">01</div>
+          <div class="principle-title">Radical transparency</div>
+          <div class="principle-text">Every source is labeled with its funding model, editorial affiliation, and press freedom score. We hide nothing about where the information comes from.</div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-num">02</div>
+          <div class="principle-title">No editorial voice</div>
+          <div class="principle-text">ConflictLens does not write analysis, op-eds, or commentary. We aggregate. The synthesis is yours to make.</div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-num">03</div>
+          <div class="principle-title">Asymmetry is visible</div>
+          <div class="principle-text">When one side has a free press and the other has state propaganda, we show that clearly. Transparency about asymmetry is itself a form of journalism.</div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-num">04</div>
+          <div class="principle-title">No ads, no agenda</div>
+          <div class="principle-text">ConflictLens is an independent open-source project. It is not funded by any government, NGO, or corporation. No advertiser influences what we show.</div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-num">05</div>
+          <div class="principle-title">Primary sources first</div>
+          <div class="principle-text">We link directly to the original media outlet. We do not paraphrase, summarize, or editorialize their content. You read their words, not ours.</div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-num">06</div>
+          <div class="principle-title">Open and evolving</div>
+          <div class="principle-text">The source list is not final. We welcome critique of our source selection. The code is open source. Anyone can audit what we do and why.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHAT WE ARE NOT -->
+    <div class="about-section" id="not">
+      <div class="section-number">// 03</div>
+      <h2 class="section-title">What we <span>are not</span></h2>
+      <p class="body-text">Defining what ConflictLens is not is as important as defining what it is.</p>
+
+      <div class="not-list">
+        <div class="not-item">
+          <span class="not-icon">✕</span>
+          <span><strong style="color:var(--text)">Not a news outlet.</strong> We do not produce original journalism. We aggregate and present existing coverage from established media organizations.</span>
+        </div>
+        <div class="not-item">
+          <span class="not-icon">✕</span>
+          <span><strong style="color:var(--text)">Not a fact-checker.</strong> We do not verify the accuracy of individual claims made by the sources we feature. That verification is your responsibility as a reader.</span>
+        </div>
+        <div class="not-item">
+          <span class="not-icon">✕</span>
+          <span><strong style="color:var(--text)">Not neutral in the sense of having no values.</strong> We believe in press freedom, transparency, and the public's right to information. Those are values. But we do not take sides in the conflicts we cover.</span>
+        </div>
+        <div class="not-item">
+          <span class="not-icon">✕</span>
+          <span><strong style="color:var(--text)">Not a platform for disinformation.</strong> We feature state media with explicit warnings about their editorial independence. Showing propaganda with a label is different from endorsing it.</span>
+        </div>
+        <div class="not-item yes-item">
+          <span class="not-icon">✓</span>
+          <span><strong style="color:var(--text)">A tool for media literacy.</strong> ConflictLens is, above all, an exercise in teaching people to read news critically — to ask who wrote this, who funded it, and what they chose not to say.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRESS FREEDOM -->
+    <div class="about-section" id="press-freedom">
+      <div class="section-number">// 04</div>
+      <h2 class="section-title">How we measure <span>press freedom</span></h2>
+      <p class="body-text">The press freedom scores shown on each source card come from the <strong>Reporters Without Borders (RSF) World Press Freedom Index</strong>, an independent annual ranking that evaluates media freedom in 180 countries. We use this as a proxy for editorial independence — not as the final word on a media outlet's credibility.</p>
+      <p class="body-text">A low RSF score for a country does not mean every story from that country is false. It means the media environment operates under constraints — legal, political, or economic — that may affect editorial decisions.</p>
+
+      <div class="rsf-explainer">
+        <div class="rsf-header">RSF Press Freedom Scale — 0 to 100</div>
+        <div class="rsf-scale">
+          <div class="rsf-good"></div>
+          <div class="rsf-satisfactory"></div>
+          <div class="rsf-problematic"></div>
+          <div class="rsf-difficult"></div>
+          <div class="rsf-very-serious"></div>
+        </div>
+        <div class="rsf-labels">
+          <span>Good (75–100)</span>
+          <span>Satisfactory (55–74)</span>
+          <span>Problematic (40–54)</span>
+          <span>Difficult (25–39)</span>
+          <span>Very serious (0–24)</span>
+        </div>
+      </div>
+
+      <p class="body-text" style="margin-top:1.2rem">Source: <strong>Reporters Without Borders</strong> — rsf.org. Data updated annually. ConflictLens uses the most recent available index.</p>
+    </div>
+
+    <!-- OPEN SOURCE -->
+    <div class="about-section" id="open">
+      <div class="section-number">// 05</div>
+      <h2 class="section-title">Open <span>source project</span></h2>
+      <p class="body-text">ConflictLens is fully open source. The entire codebase is available on GitHub. You can audit every line, suggest new sources, report errors, or fork the project to create your own version.</p>
+      <p class="body-text">This transparency is intentional. A project about media transparency should itself be transparent.</p>
+
+      <div class="code-block">
+        <span class="code-comment">// ConflictLens — project manifest</span><br><br>
+        <span class="code-key">name</span>: <span class="code-val">"ConflictLens"</span><br>
+        <span class="code-key">version</span>: <span class="code-val">"0.1-beta"</span><br>
+        <span class="code-key">license</span>: <span class="code-val">"MIT"</span><br>
+        <span class="code-key">funding</span>: <span class="code-val">"none — independent project"</span><br>
+        <span class="code-key">ads</span>: <span class="code-val">false</span><br>
+        <span class="code-key">editorial_bias</span>: <span class="code-val">"none declared"</span><br>
+        <span class="code-key">conflicts_monitored</span>: <span class="code-val">3</span><br>
+        <span class="code-key">sources_indexed</span>: <span class="code-val">17</span><br>
+        <span class="code-key">open_source</span>: <span class="code-val">true</span><br>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-left">
+    <div class="footer-motto">"Two narratives. One truth. You decide."</div>
+    <div style="margin-top:0.5rem">ConflictLens v0.1 — Open source — No ads, no agenda</div>
+  </div>
+  <div style="font-family:var(--mono);font-size:0.6rem;color:var(--text-muted);text-align:right;line-height:2">
+    <a href="index.html" style="color:var(--accent);text-decoration:none;letter-spacing:0.1em">← Back to conflicts</a>
+  </div>
+</footer>
+
+</body>
+</html>
